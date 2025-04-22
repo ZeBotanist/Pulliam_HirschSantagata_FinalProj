@@ -4,4 +4,124 @@ author: "Hirsch-Santagata, Pulliam"
 format: html
 editor: visual
 ---
+#Loading packages
+```{r}
+library(tidyverse) # for data wrangling and plotting
+library(car) # for Anova function
+library(lme4)
+library(broom) # for model residuals extraction
+library(emmeans) # for model mean extraction
+library(multcomp) # for pairwise comparison letter display
+library(readxl) # for reading excel doc
+library(janitor)
+library(lmerTest)
+```
+
+
+#Bringing in Data 
+```{r}
+pulliam_proj <- read_excel("data/project_raw_data.xlsx")
+
+pulliam_proj
+```
+
+#EDA tables
+```{r}
+summary(pulliam_proj)
+
+glimpse(pulliam_proj)
+```
+
+#Wrangling
+```{r}
+pulliam_proj_clean <- clean_names(pulliam_proj)
+
+pulliam_proj_w <- pulliam_proj_clean %>%
+  mutate(rep = factor(rep),
+         date = factor(date),
+         day = factor(day),
+         trt = factor(trt),
+         plot = factor(plot)
+         )# %>%
+ # mutate(trtname = paste0(,"+",))
+
+
+#interested in mean effects so we changed variables to be viewed as factors 
+
+pulliam_proj_w
+```
+
+#sumamry 
+```{r}
+summary(pulliam_proj_w)
+```
+
+
+# EDA Plots
+```{r}
+ggplot(pulliam_proj_w, aes(x = trt, 
+                    y = mg_kg_tin,
+                    color = trt)) +
+  geom_boxplot() +
+  geom_jitter() +
+  theme(legend.position = "right") +
+  
+  
+  facet_grid(.~day)
+
+```
+
+
+# Statistical Model
+```{r}
+options(contrasts = c("contr.sum", "contr.poly"))
+
+pulliam_proj_mod <- lmer(mg_kg_tin ~ trt*day +
+                       (1|rep),
+                     data = pulliam_proj_w
+                       )
+
+pulliam_proj_mod
+```
+
+#Anova
+```{r}
+Anova(pulliam_proj_mod, type=3)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
