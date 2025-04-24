@@ -15,6 +15,7 @@ library(multcomp) # for pairwise comparison letter display
 library(readxl) # for reading excel doc
 library(janitor)
 library(lmerTest)
+library(dplyr)
 ```
 
 
@@ -58,7 +59,11 @@ summary(pulliam_proj_w)
 
 
 # EDA Plots
-```{r}
+```{r fig.width=14, fig.height=6}
+#sampling_dates <- c("Day 0", "Day 5", "Day 7", "Day 14", "Day 28", "Day 42", "Day 56", "Day 70","Day 93", "Day 119", "Day 4inc", "Day 14inc", "Day 6pk", "Day 14pk", "Day 30pk", "Day 47pk","Day 63pk", "Day 78pk", "Day 86pk")
+
+#pulliam_proj_w$day <- factor(pulliam_proj_w$day, levels = original_day_order)
+
 ggplot(pulliam_proj_w, aes(x = trt, 
                     y = mg_kg_tin,
                     color = trt)) +
@@ -67,7 +72,33 @@ ggplot(pulliam_proj_w, aes(x = trt,
   theme(legend.position = "right") +
   
   
-  facet_grid(.~day)
+  facet_wrap(~ day)
+
+# or could use facet_grid( ~ day) for one big graphic
+
+ggplot(pulliam_proj_w, aes(x = trt, 
+                    y = mg_kg_tin,
+                    color = trt)) +
+  geom_boxplot() +
+  geom_jitter() +
+  theme(legend.position = "right") +
+  
+  
+  facet_grid(~ day)
+
+
+```
+
+
+#Faceting longer by day? (or sampling date)
+```{r}
+#pulliam_wide <- pulliam_proj_w %>%
+  #unite("day_trt", day, trt, sep = "_") %>%
+ # pivot_wider(names_from = day_trt, values_from = mg_kg_tin,
+           #   values_fill = 0) ## this last bit is to ake NA to 0 
+
+#pulliam_wide
+
 
 ```
 
@@ -76,7 +107,7 @@ ggplot(pulliam_proj_w, aes(x = trt,
 ```{r}
 options(contrasts = c("contr.sum", "contr.poly"))
 
-pulliam_proj_mod <- lmer(mg_kg_tin ~ trt*day +
+pulliam_proj_mod <- lmer(mg_kg_tin ~ trt +
                        (1|rep),
                      data = pulliam_proj_w
                        )
@@ -89,14 +120,79 @@ pulliam_proj_mod
 Anova(pulliam_proj_mod, type=3)
 ```
 
+#Linear Model Assumptions
+## extracting residuals 
+```{r}
+library(broom.mixed)
+pulliam_proj_mix_resid <- augment(pulliam_proj_mod) %>%
+  mutate(.studresid=rstudent(pulliam_proj_mod))
+
+pulliam_proj_mix_resid
+```
+#Random effect are iid
+```{r}
+randeff_rep <- ranef(pulliam_proj_mod) [[1]]
+
+randeff_rep
+```
+
+##QQPLot
+```{r}
+ggplot(randeff_rep, aes(sample=`(Intercept)`))+
+  stat_qq(  shape = 21,
+            fill = "purple", 
+            size = 3,
+            alpha = .7
+  )+
+  stat_qq_line()+
+  labs(x = "Theoretical quantile",
+       y = "Sample quantile")+
+  theme_bw()
+```
 
 
+##within group errors are iid
+```{r}
+ggplot(pulliam_proj_mix_resid, aes(x=.fitted, y=.studresid))+
+  geom_hline(yintercept = 0, color="red")+
+  geom_point(shape = 21,
+             fill = "purple", 
+             size = 3,
+             alpha = .7)+
+  geom_smooth()+
+  geom_hline(yintercept = c(-3,3), color = "red")+
+  theme_bw()
+```
+
+```{r}
+ggplot(pulliam_proj_mix_resid, aes(sample=.studresid))+
+  stat_qq(  shape = 21,
+            fill = "purple", 
+            size = 3,
+            alpha = .7
+  )+
+  stat_qq_line()+
+  labs(x = "Theoretical quantile",
+       y = "Sample quantile")+
+  theme_bw()
+```
 
 
+```{r}
+ggplot(pulliam_proj_mix_resid, aes(x=.studresid))+
+  geom_density(color = "black",
+               fill = "purple",
+               alpha = .7)+
+  scale_x_continuous(breaks = c(-3,0,3), limits = c(-3,3))+
+  theme_bw()
+```
+#Model Means
 
+```{r}
+pulliam_proj_means_all <- emmeans(pulliam_proj_mod, ~trt:day)
 
-
-
+pulliam_proj_means_all
+```
 
 
 
