@@ -4,7 +4,9 @@ author: "Hirsch-Santagata, Pulliam"
 format: html
 editor: visual
 ---
+
 #Loading packages
+
 ```{r}
 library(tidyverse) # for data wrangling and plotting
 library(car) # for Anova function
@@ -18,27 +20,24 @@ library(lmerTest)
 library(dplyr)
 ```
 
-# Introduction  
+# Introduction
 
+# Hypothesis and objectives
 
+# Material and Methods
 
-# Hypothesis and objectives  
+# Study design
 
+#Bringing in Data
 
-# Material and Methods  
-
-
-# Study design  
-
-
-#Bringing in Data 
 ```{r}
-pulliam_proj <- read_excel("data/project_raw_data.xlsx")
+pulliam_proj <- read_excel("../data/project_raw_data.xlsx")
 
 pulliam_proj
 ```
 
 #EDA tables
+
 ```{r}
 summary(pulliam_proj)
 
@@ -46,6 +45,7 @@ glimpse(pulliam_proj)
 ```
 
 #Wrangling
+
 ```{r}
 pulliam_proj_clean <- clean_names(pulliam_proj)
 
@@ -64,13 +64,14 @@ pulliam_proj_w <- pulliam_proj_clean %>%
 pulliam_proj_w
 ```
 
-#sumamry 
+#sumamry
+
 ```{r}
 summary(pulliam_proj_w)
 ```
 
-
 # EDA Plots
+
 ```{r fig.width=14, fig.height=6}
 #sampling_dates <- c("Day 0", "Day 5", "Day 7", "Day 14", "Day 28", "Day 42", "Day 56", "Day 70","Day 93", "Day 119", "Day 4inc", "Day 14inc", "Day 6pk", "Day 14pk", "Day 30pk", "Day 47pk","Day 63pk", "Day 78pk", "Day 86pk")
 
@@ -101,8 +102,8 @@ ggplot(pulliam_proj_w, aes(x = trt,
 
 ```
 
-
 #Faceting longer by day? (or sampling date)
+
 ```{r}
 #pulliam_wide <- pulliam_proj_w %>%
   #unite("day_trt", day, trt, sep = "_") %>%
@@ -114,12 +115,12 @@ ggplot(pulliam_proj_w, aes(x = trt,
 
 ```
 
-
 # Statistical Model
+
 ```{r}
 options(contrasts = c("contr.sum", "contr.poly"))
 
-pulliam_proj_mod <- lmer(mg_kg_tin ~ trt +
+pulliam_proj_mod <- lmer(mg_kg_tin ~ trt * day +
                        (1|rep),
                      data = pulliam_proj_w
                        )
@@ -128,12 +129,13 @@ pulliam_proj_mod
 ```
 
 #Anova
+
 ```{r}
 Anova(pulliam_proj_mod, type=3)
 ```
 
-#Linear Model Assumptions
-## extracting residuals 
+#Linear Model Assumptions \## extracting residuals
+
 ```{r}
 library(broom.mixed)
 pulliam_proj_mix_resid <- augment(pulliam_proj_mod) %>%
@@ -141,7 +143,9 @@ pulliam_proj_mix_resid <- augment(pulliam_proj_mod) %>%
 
 pulliam_proj_mix_resid
 ```
+
 #Random effect are iid
+
 ```{r}
 randeff_rep <- ranef(pulliam_proj_mod) [[1]]
 
@@ -149,6 +153,7 @@ randeff_rep
 ```
 
 ##QQPLot
+
 ```{r}
 ggplot(randeff_rep, aes(sample=`(Intercept)`))+
   stat_qq(  shape = 21,
@@ -162,8 +167,8 @@ ggplot(randeff_rep, aes(sample=`(Intercept)`))+
   theme_bw()
 ```
 
-
 ##within group errors are iid
+
 ```{r}
 ggplot(pulliam_proj_mix_resid, aes(x=.fitted, y=.studresid))+
   geom_hline(yintercept = 0, color="red")+
@@ -189,7 +194,6 @@ ggplot(pulliam_proj_mix_resid, aes(sample=.studresid))+
   theme_bw()
 ```
 
-
 ```{r}
 ggplot(pulliam_proj_mix_resid, aes(x=.studresid))+
   geom_density(color = "black",
@@ -198,6 +202,7 @@ ggplot(pulliam_proj_mix_resid, aes(x=.studresid))+
   scale_x_continuous(breaks = c(-3,0,3), limits = c(-3,3))+
   theme_bw()
 ```
+
 #Model Means
 
 ```{r}
@@ -205,31 +210,3 @@ pulliam_proj_means_all <- emmeans(pulliam_proj_mod, ~trt:day)
 
 pulliam_proj_means_all
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
