@@ -5,8 +5,6 @@ format: html
 editor: visual
 ---
 
-#Loading packages
-Here we are loading packages that will be of use to us, for more information refre to the stat aanalaysis section
 ```{r}
 library(tidyverse) # for data wrangling and plotting
 library(car) # for Anova function
@@ -30,13 +28,13 @@ The objective of this study is to determine the effects of poultry litter applic
 
 Using the collected data through rigorous sampling dates, the proposed project could provide an in-depth understanding of nutrient uptake and release from cover crops and its impact on the following organic vegetable system.
 
-# Hypothesis and objectives
+# Hypothesis and Objectives
 
 ### Hypothesis
 
 Poultry litter application will increase cover crop biomass, weed suppression, soil nitrogen concentrations, and nutrient availability for successive organic vegetable systems.
 
-### Objectives           
+### Objectives
 
 a.  Determine the effect of poultry litter application to cover crops on biomass, weed suppression, soil nitrogen concentrations, and nutrient availability.
 b.  Determine the effect of poultry litter application on subsequent nitrogen availability released from cover crop.
@@ -48,34 +46,38 @@ The two-year field study will take place on organic certified land at the Univer
 
 To determine the effect of poultry litter on biomass of the cover crop, samples will be taken four times through the cover crop cycle using a 1 x 1 ft quadrat to harvest biomass at soil level, which will be dried at 65°C. Once dried, samples will be weighed, and their dry weight will be recorded. Additionally, light interception of the cover crops will be measured using the LP-80 (METER Group). Soil samples will be taken prior to poultry litter application, at 4,7, and 14 days after application then every two weeks until cover crop termination to determine soil inorganic nitrogen. The soil samples will be extracted in 1M KCl, then amounts of soil inorganic nitrogen will be calculated using a Timberline Instruments Ammonia Analyzer. Soil samples taken prior to poultry litter application will be analyzed for routine nutrient analysis, total nitrogen and carbon, and organic matter. At cover crop termination, biomass sample will be analyzed for total nitrogen, total carbon, carbohydrates, cellulose, and lignin using the NIRS DS5200 (Foss). Mineralization of these cover crops will be determined using the UGA Cover Crop Nitrogen Availability Calculator. Kale will be measured for nutrient uptake through soil samples taken at planting, and at 4,7, and 14 days after planting then every two weeks until final harvest. Leaf nitrate concentrations will be determined by harvesting two mature leaves and two new leaves per treatment block. Nitrate concentrations will be quantified using the same method used to determine soil nitrogen concentrations. To determine nitrogen availability for subsequent vegetable system, kale will be harvested four times throughout the study to and measured for nitrate, quality, dry weight, and overall yield.
 
-Data will be analyzed using a one way analysis of variance (ANOVA) model in the program R (R Core Team). The independent (treatment) variable in the proposed will be the rate of poultry litter application, while dependent variables will include soil nitrogen, biomass, plant nitrate, plant height, and chlorophyll. When ANOVA indicatedd significance, Tukey's HSD was used o superate means at p < 0.05. The models were run using the lm function from the stats package in R.
-
 # Study design
 
 This study design is a randomized complete block design. There are 4 poultry litter application treatments with 4 replications randomized in 4 blocks (16 plots total). Randomization was conducted by take the 16 plot IDs and putting them into a web-generated randomized plot.
 
-## Statistical analysis  
+## Statistical analysis
 
-Data will be analyzed using a type 3, one way analysis of variance (ANOVA) model in the program R (R Core Team). The independent (treatment) variable in the proposed will be the rate of poultry litter application, while dependent variables will include soil nitrogen, biomass, plant nitrate, plant height, and chlorophyll. When ANOVA indicated significance, Tukey's HSD was used to separate means at p < 0.05. The models were run using the lmer function from the stats package in R. We checked linear model assumptions by extracting residuals and plotting on a QQ plot to look for linearity between our sample quantile and the theoretical. We checked for within group errors by plotting studentized residuals versus fitted ones, looking for outliers above 3 or below -3, while looking for possible patterns - where we did notice a fan shaped structure within our data. Which wasn’t something we had encountered or new how to fit our model to compensate for. Then with out studentized residuals we fitted to a QQ plot again to look for linearity between our sample quantile and the theoretical, which can back okay, with a linearity to the data without too much cause for concern. Finally we used geom_density function to look at the studentized residuals and how they lay between points of 3 and -3, to which we saw the majority of points fell near 0, with a clear bell-shaped pattern pattern. Overall when checking for normality or model seems to pass - besides the fan shape we noticed but that is outside the bounds of our course. For our work in R we used the following packages: tidyverse (for wrangling and plotting), car (for the Anova function), lme4 (to run our statistical model), broom (for model residual extractions), emmeans (for model means extraction), multicomp (for pairwise letters comparisons), readxl (to read and bring in our excel data), janitor (to wrangle and clean our excel data we import), LmerTest (to display the p-values next to the mdoel once run), and dyplr (for overal functionality)
+Data will be analyzed using a type 3, analysis of variance (ANOVA) model in the program R (R Core Team). The independent (treatment) variable in the proposed will be the rate of poultry litter application, while dependent variables will include soil nitrogen, biomass, plant nitrate, plant height, and chlorophyll. When ANOVA indicated significance, Tukey's HSD was used to separate means at p \< 0.05. The models were run using the lmer function from the stats package in R. We checked linear model assumptions by extracting residuals and plotting on a QQ plot to look for linearity between our sample quantile and the theoretical. We checked for within group errors by plotting studentized residuals versus fitted ones, looking for outliers above 3 or below -3, while looking for possible patterns - where we did notice a fan shaped structure within our data. Which wasn’t something we had encountered or new how to fit our model to compensate for. Then with out studentized residuals we fitted to a QQ plot again to look for linearity between our sample quantile and the theoretical, which can back okay, with a linearity to the data without too much cause for concern. Finally we used geom_density function to look at the studentized residuals and how they lay between points of 3 and -3, to which we saw the majority of points fell near 0, with a clear bell-shaped pattern pattern. Overall when checking for normality or model seems to pass - besides the fan shape we noticed but that is outside the bounds of our course. For our work in R we used the following packages: tidyverse (for wrangling and plotting), car (for the Anova function), lme4 (to run our statistical model), broom (for model residual extractions), emmeans (for model means extraction), multicomp (for pairwise letters comparisons), readxl (to read and bring in our excel data), janitor (to wrangle and clean our excel data we import), LmerTest (to display the p-values next to the mdoel once run), and dyplr (for overall functionality)
 
-##Bringing in Data
+##Bringing in Data 
+
 Here we are bringing in our data set with the read_excel funtion through the readxl package which we configured and edited to run in R
+
 ```{r}
 pulliam_proj <- read_excel("../data/project_raw_data.xlsx")
 
 pulliam_proj
 ```
 
-#EDA tables
+#EDA tables 
+
 Here we are printing the summary and glimpsing at our data to get an understanding of how are variables are being interpreted and looking at the general stats so far with the raw data
+
 ```{r}
 summary(pulliam_proj)
 
 glimpse(pulliam_proj)
 ```
 
-##Wrangling
+##Wrangling 
+
 Here we are doing some light wrangling of the data, cleaning names to make coding easier down the line and primarily changing variables form being looked at as numerical to being viewed as factors, as they play important role in how are data is interpreted
+
 ```{r}
 pulliam_proj_clean <- clean_names(pulliam_proj)
 
@@ -94,14 +96,18 @@ pulliam_proj_w <- pulliam_proj_clean %>%
 pulliam_proj_w
 ```
 
-##Sumamry
+##Sumamry 
+
 Here we are looking at the summary again to ensure no mistakes were made
+
 ```{r}
 summary(pulliam_proj_w)
 ```
 
 # EDA Plots
+
 Here we are trying to layout the data and look at possible presentations, sectioning out our main variables of trt and day to get an understanding on how it will impact our dependednt variable of total inorganic nitrogen (mg_kg_tin)
+
 ```{r fig.width=14, fig.height=6}
 #sampling_dates <- c("Day 0", "Day 5", "Day 7", "Day 14", "Day 28", "Day 42", "Day 56", "Day 70","Day 93", "Day 119", "Day 4inc", "Day 14inc", "Day 6pk", "Day 14pk", "Day 30pk", "Day 47pk","Day 63pk", "Day 78pk", "Day 86pk")
 
@@ -133,7 +139,9 @@ ggplot(pulliam_proj_w, aes(x = trt,
 ```
 
 # Statistical Model
+
 Here we are creating our statistical model through the lme4 package using the lmer function, where we assume rep as randome and are attempting to exlain mg_kg_tin through the varaibles of trt and day
+
 ```{r}
 options(contrasts = c("contr.sum", "contr.poly"))
 
@@ -145,15 +153,18 @@ pulliam_proj_mod <- lmer(mg_kg_tin ~ trt * day +
 pulliam_proj_mod
 ```
 
-#Anova
+#Anova 
 Here we are running a type 3 ANOVA model to look at significance
+
 ```{r}
 Anova(pulliam_proj_mod, type=3)
 ```
 
 #Linear Model Assumptions 
-## Extracting residuals
-Here we are extracting residuals to begin chekcing normality 
+## Extracting residuals 
+
+Here we are extracting residuals to begin chekcing normality
+
 ```{r}
 library(broom.mixed)
 pulliam_proj_mix_resid <- augment(pulliam_proj_mod) %>%
@@ -162,16 +173,20 @@ pulliam_proj_mix_resid <- augment(pulliam_proj_mod) %>%
 pulliam_proj_mix_resid
 ```
 
-##Random Effect are iid
+##Random Effect are iid 
+
 Here we are looking at radnom effect
+
 ```{r}
 randeff_rep <- ranef(pulliam_proj_mod) [[1]]
 
 randeff_rep
 ```
 
-##QQPLot
-Here we creat a QQ plot to check the linear model assumptions fo the random efffect
+##QQPlot
+
+Here we create a QQ plot to check the linear model assumptions fo the random effect
+
 ```{r}
 ggplot(randeff_rep, aes(sample=`(Intercept)`))+
   stat_qq(  shape = 21,
@@ -185,8 +200,10 @@ ggplot(randeff_rep, aes(sample=`(Intercept)`))+
   theme_bw()
 ```
 
-##Within Group Errors are iid
+##Within Group Errors are iid 
+
 Here we plot residuals, studentized and fitted to look for outliers and normality issues (if we see a pattern)
+
 ```{r}
 ggplot(pulliam_proj_mix_resid, aes(x=.fitted, y=.studresid))+
   geom_hline(yintercept = 0, color="red")+
@@ -198,8 +215,11 @@ ggplot(pulliam_proj_mix_resid, aes(x=.fitted, y=.studresid))+
   geom_hline(yintercept = c(-3,3), color = "red")+
   theme_bw()
 ```
-##QQplot
-Here we check linear normality using the studentized residuals, keeping an eye out for unique patterns 
+
+##QQplot 
+
+Here we check linear normality using the studentized residuals, keeping an eye out for unique patterns
+
 ```{r}
 ggplot(pulliam_proj_mix_resid, aes(sample=.studresid))+
   stat_qq(  shape = 21,
@@ -212,8 +232,11 @@ ggplot(pulliam_proj_mix_resid, aes(sample=.studresid))+
        y = "Sample quantile")+
   theme_bw()
 ```
-##Geom Density Plot
+
+##Geom Density Plot 
+
 Here we look to ensure normality through the bell-shaped curve of the studentized resuals plotted
+
 ```{r}
 ggplot(pulliam_proj_mix_resid, aes(x=.studresid))+
   geom_density(color = "black",
@@ -223,8 +246,10 @@ ggplot(pulliam_proj_mix_resid, aes(x=.studresid))+
   theme_bw()
 ```
 
-#Model Means
+#Model Means 
+
 Here we looking at model means bewteen individual treatments within a certain day
+
 ```{r}
 pulliam_proj_means_all <- emmeans(pulliam_proj_mod, ~trt|day)
 
@@ -232,7 +257,9 @@ pulliam_proj_means_all
 ```
 
 # Pairwise comparisons
-Here we create our pairwise comparison and establish our letters of significance 
+
+Here we create our pairwise comparison and establish our letters of significance
+
 ```{r}
 pulliam_proj_cld_all <- cld(pulliam_proj_means_all, 
                    reversed=T, 
@@ -242,8 +269,10 @@ pulliam_proj_cld_all <- cld(pulliam_proj_means_all,
 pulliam_proj_cld_all
 ```
 
-##Light Wrangling
-Here we are doing osme light wrangling before moving on to our final plotting, but only needed if we decde to present the data in a way displaying "trt + day" together
+##Light Wrangling 
+
+Here we are doing some light wrangling before moving on to our final plotting, but only needed if we decide to present the data in a way displaying "trt + day" together
+
 ```{r}
 pulliam_proj_cld_selected <- pulliam_proj_cld_all %>%
   as.data.frame() %>%
@@ -253,8 +282,10 @@ pulliam_proj_cld_selected <- pulliam_proj_cld_all %>%
 pulliam_proj_cld_selected
 ```
 
-#Final Plot
-Here we bring in our intitial wrangled data to create boxplots with error bars, we set our dependednt variable of mg_kg_tin to the y axis and our independent variables of day and treatment to the y axis, displaying both through the use of the facet_grid fucntion. Our letters our created trough our emmean values we created a few steps above, then we save it in a size that makes it legible.
+#Final Plot 
+
+Here we bring in our initial wrangled data to create boxplots with error bars, we set our dependent variable of mg_kg_tin to the y axis and our independent variables of day and treatment to the y axis, displaying both through the use of the facet_grid function. Our letters our created trough our emmean values we created a few steps above, then we save it in a size that makes it legible.
+
 ```{r fig.width=30, fig.height=8}
 pulliam_proj_w1 <- pulliam_proj_w %>%
 mutate(trtname = paste0(trt,"+", day))
@@ -289,19 +320,8 @@ ggsave("../output/pulliam_project_final_plot.png",
 
 ```
 
+# Results
 
+Our graph shows no significance in soil total inorganic nitrogen on day 0 before poultry litter application. After day 0, there are significant differences in soil inorganic nitrogen from days 5-56 which makes sense. It is typical for poultry litter and other organic fertilizers to take a few weeks/month for microbes to bring their organic compounds into inorganic plant available forms which is what we are seeing in days 5 through 56. The lack of significant results from days 70-145 could be expected as cover crops are uptaking the inorganic nitrogen. On days 152 and days 185 there is a peak in soil inorganic nitrogen which is likely due to the mineralization of the incorporated cover crop in addition to the small pre-plant application of an organic fertilizer to supply the cash crop (kale) with enough N for the season. After this peak, there is another period of time with stable and non-significant soil inorganic nitrogen from days 185 to 224 which is likely due to the kale uptake of inorganic nitrogen. While treatment 4 (highest application of poultry litter) has the highest soil inorganic nitrogen as expected, we still need to analyze and visualize other nutrients/variables to examine the effects of this level of poultry litter applications.
 
-
-# Results  
-
-Our graph shows no significance in soil total inorganic nitrogen on day 0 before poultry litter application. After day 0, there are significant differences in soil inorganic nitrogen from days 5-56 which makes sense. It is typical for poultry litter and other organic fertilizers to take a few weeks/month for microbes to bring their organic compounds into inorganic plant available forms which is what we are seeing in days 5 through 56. The lack of significant results from days 70-145 could be expected as cover crops are uptaking the inorganic nitrogen. On days 152 and days 185 there is a  peak in soil inorganic nitrogen which is likely due to the mineralization of the incorporated cover crop in addition to the small pre-plant application of an organic fertilizer to supply the cash crop (kale) with enough N for the season. After this peak, there is another period of time with stable and non-significant soil inorganic nitrogen from days 185 to 224 which is likely due to the kale uptake of inorganic nitrogen. While treatment 4 (highest application of poultry litter) has the highest soil inorganic nitrogen as expected, we still need to analyze and visualize other nutrients/variables to examine the effects of this level of poultry litter applications. 
-
-The process and visualization of this data allows us to see how different rates of poultry litter provide different amounts of soil inorganic nitrogen at different times. Being able to visualize this allows for researcher and organic growers to make more informed applications of organic fertilizers to optimize and synchronize soil nutrients with plant uptake. Synchronization is a complex problem for organic growers as all organic fertilizers will mineralize and release their nutrients different depending on environmental and soil conditions. Being able to visualize this process can help minimize nutrient losses and increase fertilizer efficacy/yields. Further analysis will be conducted to see if poultry application to cover crops is suitable option for organic growers to avoid food pathogen risk while using low-cost fertilizers such as poultry litter. 
-
-
-
-
-
-
-
-
+The process and visualization of this data allows us to see how different rates of poultry litter provide different amounts of soil inorganic nitrogen at different times. Being able to visualize this allows for researcher and organic growers to make more informed applications of organic fertilizers to optimize and synchronize soil nutrients with plant uptake. Synchronization is a complex problem for organic growers as all organic fertilizers will mineralize and release their nutrients different depending on environmental and soil conditions. Being able to visualize this process can help minimize nutrient losses and increase fertilizer efficacy/yields. Further analysis will be conducted to see if poultry application to cover crops is suitable option for organic growers to avoid food pathogen risk while using low-cost fertilizers such as poultry litter.
