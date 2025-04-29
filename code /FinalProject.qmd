@@ -210,3 +210,60 @@ pulliam_proj_means_all <- emmeans(pulliam_proj_mod, ~trt:day)
 
 pulliam_proj_means_all
 ```
+
+# Pairwise comparisons
+
+```{r}
+pulliam_proj_cld_all <- cld(pulliam_proj_means_all, 
+                   reversed=T, 
+                   adjust="none",
+               Letters=letters)
+
+pulliam_proj_cld_all
+```
+
+##light wrangling
+
+```{r}
+pulliam_proj_cld_selected <- pulliam_proj_cld_all %>%
+  as.data.frame() %>%
+  mutate(letter=trimws(.group)) %>%
+  mutate(trtname = paste0(trt,"+", day))
+
+pulliam_proj_cld_selected
+```
+
+#Final Plot
+
+```{r fig.width=30, fig.height=8}
+pulliam_proj_w1 <- pulliam_proj_w %>%
+mutate(trtname = paste0(trt,"+", day))
+
+
+
+ggplot(mapping = aes(fill = trtname))+
+  # Raw data and boxplots  
+  geom_boxplot(data = pulliam_proj_w1,
+               aes(x = trtname, y = mg_kg_tin),
+               alpha = .8) +
+  geom_jitter(data = pulliam_proj_w1,
+               aes(x = trtname, y = mg_kg_tin),
+              shape = 21,
+              size = 3,
+              alpha = .6) +
+  # Adding letters
+  geom_label(data = pulliam_proj_cld_selected,
+            aes(x = trtname, y = emmean, label = letter),
+            fill = "white") +
+  labs(x = "Treatment + Day",
+       y = "Mg/Kg of Total Inorganic Nitrogen") +
+  scale_fill_viridis_d() +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        legend.position = "none") 
+
+
+ggsave("../output/pulliam_project_final_plot.png",
+       width = 16,
+       height = 5)
+```
