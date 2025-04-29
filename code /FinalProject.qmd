@@ -238,7 +238,7 @@ ggplot(pulliam_proj_mix_resid, aes(x=.studresid))+
 #Model Means
 
 ```{r}
-pulliam_proj_means_all <- emmeans(pulliam_proj_mod, ~trt:day)
+pulliam_proj_means_all <- emmeans(pulliam_proj_mod, ~trt|day)
 
 pulliam_proj_means_all
 ```
@@ -292,14 +292,49 @@ ggplot(mapping = aes(fill = trtname))+
   scale_fill_viridis_d() +
   theme(panel.grid.major.y = element_blank(),
         panel.grid.minor.y = element_blank(),
-        legend.position = "none") 
+        legend.position = "none")
 
 
 ggsave("../output/pulliam_project_final_plot.png",
-       width = 16,
-       height = 5)
+       width = 30,
+       height = 8)
 ```
 
+#Fianl Plot2.0
+
+
+```{r fig.width=30, fig.height=8}
+pulliam_proj_w1 <- pulliam_proj_w %>%
+mutate(trtname = paste0(trt,"+", day))
+
+
+ggplot(mapping = aes(fill = trtname))+
+  # Raw data and boxplots  
+  geom_boxplot(data = pulliam_proj_w1,
+               aes(x = trt, y = mg_kg_tin),
+               alpha = .8) +
+  geom_jitter(data = pulliam_proj_w1,
+               aes(x = trt, y = mg_kg_tin),
+              shape = 21,
+              size = 3,
+              alpha = .6) +
+  # Adding letters
+  geom_label(data = pulliam_proj_cld_selected,
+            aes(x = trt, y = emmean, label = letter),
+            fill = "white") +
+  labs(x = "Treatment",
+       y = "Mg/Kg of Total Inorganic Nitrogen") +
+  scale_fill_viridis_d() +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        legend.position = "none") +
+  
+facet_grid(~ day)
+
+ggsave("../output/pulliam_project_final_plot2.png",
+       width = 30,
+       height = 8)
+```
 
 
 
