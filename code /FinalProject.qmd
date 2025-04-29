@@ -153,7 +153,7 @@ pulliam_proj_mod <- lmer(mg_kg_tin ~ trt * day +
 pulliam_proj_mod
 ```
 
-# Anova 
+# Anova
 
 Here we are running a type 3 ANOVA model to look at significance
 
@@ -161,7 +161,8 @@ Here we are running a type 3 ANOVA model to look at significance
 Anova(pulliam_proj_mod, type=3)
 ```
 
-# Linear Model Assumptions 
+# Linear Model Assumptions
+
 ## Extracting residuals
 
 Here we are extracting residuals to begin chekcing normality
@@ -174,7 +175,7 @@ pulliam_proj_mix_resid <- augment(pulliam_proj_mod) %>%
 pulliam_proj_mix_resid
 ```
 
-##Random Effect are iid
+## Random Effect are iid
 
 Here we are looking at radnom effect
 
@@ -184,7 +185,7 @@ randeff_rep <- ranef(pulliam_proj_mod) [[1]]
 randeff_rep
 ```
 
-##QQPlot
+## QQPlot
 
 Here we create a QQ plot to check the linear model assumptions fo the random effect
 
