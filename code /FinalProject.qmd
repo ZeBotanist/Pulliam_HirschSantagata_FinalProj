@@ -293,14 +293,10 @@ ggsave("../output/pulliam_project_final_plot.png",
 
 
 # Results  
-Here is where the coding is going to happen, and it will be completely up to you. Include under this section as many sub-sections (using ##) and as many chunks needed to create the analytical workflow for your analysis, starting at loading packages and data, wrangling, EDA, modeling, assumptions checking, ANOVA table, means, pairwise comparisons, and final publication-quality plot.  
 
-Make sure to run a model that reflects your study design. Even if your study design does not include one of the designs covered in class, you are still expected to run the most appropriate model. If you need help for references, let me know.  
+Our graph shows no significance in soil total inorganic nitrogen on day 0 before poultry litter application. After day 0, there are significant differences in soil inorganic nitrogen from days 5-56 which makes sense. It is typical for poultry litter and other organic fertilizers to take a few weeks/month for microbes to bring their organic compounds into inorganic plant available forms which is what we are seeing in days 5 through 56. The lack of significant results from days 70-145 could be expected as cover crops are uptaking the inorganic nitrogen. On days 152 and days 185 there is a  peak in soil inorganic nitrogen which is likely due to the mineralization of the incorporated cover crop in addition to the small pre-plant application of an organic fertilizer to supply the cash crop (kale) with enough N for the season. After this peak, there is another period of time with stable and non-significant soil inorganic nitrogen from days 185 to 224 which is likely due to the kale uptake of inorganic nitrogen. While treatment 4 (highest application of poultry litter) has the highest soil inorganic nitrogen as expected, we still need to analyze and visualize other nutrients/variables to examine the effects of this level of poultry litter applications. 
 
-Before each chunk, describe the steps being performed in that chunk. For example, "Here I will load the data".  
-
-If a chunk produces output, like printing a data frame, statistical summary, a plot, ANOVA table, etc., make sure to write text interpreting what you see and how you can/will use that information to move forward to the next steps in the workflow.  
-
+The process and visualization of this data allows us to see how different rates of poultry litter provide different amounts of soil inorganic nitrogen at different times. Being able to visualize this allows for researcher and organic growers to make more informed applications of organic fertilizers to optimize and synchronize soil nutrients with plant uptake. Synchronization is a complex problem for organic growers as all organic fertilizers will mineralize and release their nutrients different depending on environmental and soil conditions. Being able to visualize this process can help minimize nutrient losses and increase fertilizer efficacy/yields. Further analysis will be conducted to see if poultry application to cover crops is suitable option for organic growers to avoid food pathogen risk while using low-cost fertilizers such as poultry litter. 
 
 
 
