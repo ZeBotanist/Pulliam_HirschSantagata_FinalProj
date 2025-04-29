@@ -6,7 +6,7 @@ editor: visual
 ---
 
 #Loading packages
-
+Here we are loading packages that will be of use to us, for more information refre to the stat aanalaysis section
 ```{r}
 library(tidyverse) # for data wrangling and plotting
 library(car) # for Anova function
@@ -55,13 +55,11 @@ Data will be analyzed using a one way analysis of variance (ANOVA) model in the 
 This study design is a randomized complete block design. There are 4 poultry litter application treatments with 4 replications randomized in 4 blocks (16 plots total). Randomization was conducted by take the 16 plot IDs and putting them into a web-generated randomized plot.
 
 ## Statistical analysis  
-Describe here your statistical analysis, including what type of ANOVA model you ran (based on the design above), what was your response variable, what were your explanatory variables and how were the explanatory variables treated (random or fixed). Provide your alpha level. Explain which function from which package you used to analyze this data. Explain how you checked linear model assumptions and whether or not they were met. Overall, make sure you explain in sufficient detail that, if given your data, a knowledgeable person would be able to reproduce your analysis exactly.  
 
--include packages used 
--include variabels : explantory ect..
+Data will be analyzed using a type 3, one way analysis of variance (ANOVA) model in the program R (R Core Team). The independent (treatment) variable in the proposed will be the rate of poultry litter application, while dependent variables will include soil nitrogen, biomass, plant nitrate, plant height, and chlorophyll. When ANOVA indicated significance, Tukey's HSD was used to separate means at p < 0.05. The models were run using the lmer function from the stats package in R. We checked linear model assumptions by extracting residuals and plotting on a QQ plot to look for linearity between our sample quantile and the theoretical. We checked for within group errors by plotting studentized residuals versus fitted ones, looking for outliers above 3 or below -3, while looking for possible patterns - where we did notice a fan shaped structure within our data. Which wasn’t something we had encountered or new how to fit our model to compensate for. Then with out studentized residuals we fitted to a QQ plot again to look for linearity between our sample quantile and the theoretical, which can back okay, with a linearity to the data without too much cause for concern. Finally we used geom_density function to look at the studentized residuals and how they lay between points of 3 and -3, to which we saw the majority of points fell near 0, with a clear bell-shaped pattern pattern. Overall when checking for normality or model seems to pass - besides the fan shape we noticed but that is outside the bounds of our course. For our work in R we used the following packages: tidyverse (for wrangling and plotting), car (for the Anova function), lme4 (to run our statistical model), broom (for model residual extractions), emmeans (for model means extraction), multicomp (for pairwise letters comparisons), readxl (to read and bring in our excel data), janitor (to wrangle and clean our excel data we import), LmerTest (to display the p-values next to the mdoel once run), and dyplr (for overal functionality)
 
-#Bringing in Data
-
+##Bringing in Data
+Here we are bringing in our data set with the read_excel funtion through the readxl package which we configured and edited to run in R
 ```{r}
 pulliam_proj <- read_excel("../data/project_raw_data.xlsx")
 
@@ -69,15 +67,15 @@ pulliam_proj
 ```
 
 #EDA tables
-
+Here we are printing the summary and glimpsing at our data to get an understanding of how are variables are being interpreted and looking at the general stats so far with the raw data
 ```{r}
 summary(pulliam_proj)
 
 glimpse(pulliam_proj)
 ```
 
-#Wrangling
-
+##Wrangling
+Here we are doing some light wrangling of the data, cleaning names to make coding easier down the line and primarily changing variables form being looked at as numerical to being viewed as factors, as they play important role in how are data is interpreted
 ```{r}
 pulliam_proj_clean <- clean_names(pulliam_proj)
 
@@ -96,14 +94,14 @@ pulliam_proj_w <- pulliam_proj_clean %>%
 pulliam_proj_w
 ```
 
-#sumamry
-
+##Sumamry
+Here we are looking at the summary again to ensure no mistakes were made
 ```{r}
 summary(pulliam_proj_w)
 ```
 
 # EDA Plots
-
+Here we are trying to layout the data and look at possible presentations, sectioning out our main variables of trt and day to get an understanding on how it will impact our dependednt variable of total inorganic nitrogen (mg_kg_tin)
 ```{r fig.width=14, fig.height=6}
 #sampling_dates <- c("Day 0", "Day 5", "Day 7", "Day 14", "Day 28", "Day 42", "Day 56", "Day 70","Day 93", "Day 119", "Day 4inc", "Day 14inc", "Day 6pk", "Day 14pk", "Day 30pk", "Day 47pk","Day 63pk", "Day 78pk", "Day 86pk")
 
@@ -134,21 +132,8 @@ ggplot(pulliam_proj_w, aes(x = trt,
 
 ```
 
-#Faceting longer by day? (or sampling date)
-
-```{r}
-#pulliam_wide <- pulliam_proj_w %>%
-  #unite("day_trt", day, trt, sep = "_") %>%
- # pivot_wider(names_from = day_trt, values_from = mg_kg_tin,
-           #   values_fill = 0) ## this last bit is to ake NA to 0 
-
-#pulliam_wide
-
-
-```
-
 # Statistical Model
-
+Here we are creating our statistical model through the lme4 package using the lmer function, where we assume rep as randome and are attempting to exlain mg_kg_tin through the varaibles of trt and day
 ```{r}
 options(contrasts = c("contr.sum", "contr.poly"))
 
@@ -161,13 +146,14 @@ pulliam_proj_mod
 ```
 
 #Anova
-
+Here we are running a type 3 ANOVA model to look at significance
 ```{r}
 Anova(pulliam_proj_mod, type=3)
 ```
 
-#Linear Model Assumptions \## extracting residuals
-
+#Linear Model Assumptions 
+## Extracting residuals
+Here we are extracting residuals to begin chekcing normality 
 ```{r}
 library(broom.mixed)
 pulliam_proj_mix_resid <- augment(pulliam_proj_mod) %>%
@@ -176,8 +162,8 @@ pulliam_proj_mix_resid <- augment(pulliam_proj_mod) %>%
 pulliam_proj_mix_resid
 ```
 
-#Random effect are iid
-
+##Random Effect are iid
+Here we are looking at radnom effect
 ```{r}
 randeff_rep <- ranef(pulliam_proj_mod) [[1]]
 
@@ -185,7 +171,7 @@ randeff_rep
 ```
 
 ##QQPLot
-
+Here we creat a QQ plot to check the linear model assumptions fo the random efffect
 ```{r}
 ggplot(randeff_rep, aes(sample=`(Intercept)`))+
   stat_qq(  shape = 21,
@@ -199,8 +185,8 @@ ggplot(randeff_rep, aes(sample=`(Intercept)`))+
   theme_bw()
 ```
 
-##within group errors are iid
-
+##Within Group Errors are iid
+Here we plot residuals, studentized and fitted to look for outliers and normality issues (if we see a pattern)
 ```{r}
 ggplot(pulliam_proj_mix_resid, aes(x=.fitted, y=.studresid))+
   geom_hline(yintercept = 0, color="red")+
@@ -212,7 +198,8 @@ ggplot(pulliam_proj_mix_resid, aes(x=.fitted, y=.studresid))+
   geom_hline(yintercept = c(-3,3), color = "red")+
   theme_bw()
 ```
-
+##QQplot
+Here we check linear normality using the studentized residuals, keeping an eye out for unique patterns 
 ```{r}
 ggplot(pulliam_proj_mix_resid, aes(sample=.studresid))+
   stat_qq(  shape = 21,
@@ -225,7 +212,8 @@ ggplot(pulliam_proj_mix_resid, aes(sample=.studresid))+
        y = "Sample quantile")+
   theme_bw()
 ```
-
+##Geom Density Plot
+Here we look to ensure normality through the bell-shaped curve of the studentized resuals plotted
 ```{r}
 ggplot(pulliam_proj_mix_resid, aes(x=.studresid))+
   geom_density(color = "black",
@@ -236,7 +224,7 @@ ggplot(pulliam_proj_mix_resid, aes(x=.studresid))+
 ```
 
 #Model Means
-
+Here we looking at model means bewteen individual treatments within a certain day
 ```{r}
 pulliam_proj_means_all <- emmeans(pulliam_proj_mod, ~trt|day)
 
@@ -244,7 +232,7 @@ pulliam_proj_means_all
 ```
 
 # Pairwise comparisons
-
+Here we create our pairwise comparison and establish our letters of significance 
 ```{r}
 pulliam_proj_cld_all <- cld(pulliam_proj_means_all, 
                    reversed=T, 
@@ -254,8 +242,8 @@ pulliam_proj_cld_all <- cld(pulliam_proj_means_all,
 pulliam_proj_cld_all
 ```
 
-##light wrangling
-
+##Light Wrangling
+Here we are doing osme light wrangling before moving on to our final plotting, but only needed if we decde to present the data in a way displaying "trt + day" together
 ```{r}
 pulliam_proj_cld_selected <- pulliam_proj_cld_all %>%
   as.data.frame() %>%
@@ -265,44 +253,8 @@ pulliam_proj_cld_selected <- pulliam_proj_cld_all %>%
 pulliam_proj_cld_selected
 ```
 
-#Final Plot
-
-```{r fig.width=30, fig.height=8}
-pulliam_proj_w1 <- pulliam_proj_w %>%
-mutate(trtname = paste0(trt,"+", day))
-
-
-
-ggplot(mapping = aes(fill = trtname))+
-  # Raw data and boxplots  
-  geom_boxplot(data = pulliam_proj_w1,
-               aes(x = trtname, y = mg_kg_tin),
-               alpha = .8) +
-  geom_jitter(data = pulliam_proj_w1,
-               aes(x = trtname, y = mg_kg_tin),
-              shape = 21,
-              size = 3,
-              alpha = .6) +
-  # Adding letters
-  geom_label(data = pulliam_proj_cld_selected,
-            aes(x = trtname, y = emmean, label = letter),
-            fill = "white") +
-  labs(x = "Treatment + Day",
-       y = "Mg/Kg of Total Inorganic Nitrogen") +
-  scale_fill_viridis_d() +
-  theme(panel.grid.major.y = element_blank(),
-        panel.grid.minor.y = element_blank(),
-        legend.position = "none")
-
-
-ggsave("../output/pulliam_project_final_plot.png",
-       width = 30,
-       height = 8)
-```
-
-#Fianl Plot2.0
-
-
+#Fianl Plot
+Here we bring in our intitial wrangled data to create boxplots with error bars, we set our dependednt variable of mg_kg_tin to the y axis and our independent variables of day and treatment to the y axis, displaying both through the use of the facet_grid fucntion. Our letters our created trough our emmean values we created a few steps above, then we save it in a size that makes it legible.
 ```{r fig.width=30, fig.height=8}
 pulliam_proj_w1 <- pulliam_proj_w %>%
 mutate(trtname = paste0(trt,"+", day))
@@ -318,11 +270,11 @@ ggplot(mapping = aes(fill = trtname))+
               shape = 21,
               size = 3,
               alpha = .6) +
-  # Adding letters
+  # Adding letters and titles
   geom_label(data = pulliam_proj_cld_selected,
             aes(x = trt, y = emmean, label = letter),
             fill = "white") +
-  labs(x = "Treatment",
+  labs(x = "Treatments Grouped By Day",
        y = "Mg/Kg of Total Inorganic Nitrogen") +
   scale_fill_viridis_d() +
   theme(panel.grid.major.y = element_blank(),
@@ -331,9 +283,10 @@ ggplot(mapping = aes(fill = trtname))+
   
 facet_grid(~ day)
 
-ggsave("../output/pulliam_project_final_plot2.png",
+ggsave("../output/pulliam_project_final_plot.png",
        width = 30,
        height = 8)
+
 ```
 
 
