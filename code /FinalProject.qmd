@@ -54,7 +54,7 @@ This study design is a randomized complete block design. There are 4 poultry lit
 
 Data will be analyzed using a type 3, analysis of variance (ANOVA) model in the program R (R Core Team). The independent (treatment) variable in the proposed will be the rate of poultry litter application, while dependent variables will include soil nitrogen, biomass, plant nitrate, plant height, and chlorophyll. When ANOVA indicated significance, Tukey's HSD was used to separate means at p \< 0.05. The models were run using the lmer function from the stats package in R. We checked linear model assumptions by extracting residuals and plotting on a QQ plot to look for linearity between our sample quantile and the theoretical. We checked for within group errors by plotting studentized residuals versus fitted ones, looking for outliers above 3 or below -3, while looking for possible patterns - where we did notice a fan shaped structure within our data. Which wasn’t something we had encountered or new how to fit our model to compensate for. Then with out studentized residuals we fitted to a QQ plot again to look for linearity between our sample quantile and the theoretical, which can back okay, with a linearity to the data without too much cause for concern. Finally we used geom_density function to look at the studentized residuals and how they lay between points of 3 and -3, to which we saw the majority of points fell near 0, with a clear bell-shaped pattern pattern. Overall when checking for normality or model seems to pass - besides the fan shape we noticed but that is outside the bounds of our course. For our work in R we used the following packages: tidyverse (for wrangling and plotting), car (for the Anova function), lme4 (to run our statistical model), broom (for model residual extractions), emmeans (for model means extraction), multicomp (for pairwise letters comparisons), readxl (to read and bring in our excel data), janitor (to wrangle and clean our excel data we import), LmerTest (to display the p-values next to the mdoel once run), and dyplr (for overall functionality)
 
-##Bringing in Data
+## Bringing in Data
 
 Here we are bringing in our data set with the read_excel funtion through the readxl package which we configured and edited to run in R
 
@@ -64,7 +64,7 @@ pulliam_proj <- read_excel("../data/project_raw_data.xlsx")
 pulliam_proj
 ```
 
-#EDA tables
+# EDA tables
 
 Here we are printing the summary and glimpsing at our data to get an understanding of how are variables are being interpreted and looking at the general stats so far with the raw data
 
@@ -74,7 +74,7 @@ summary(pulliam_proj)
 glimpse(pulliam_proj)
 ```
 
-##Wrangling
+## Wrangling
 
 Here we are doing some light wrangling of the data, cleaning names to make coding easier down the line and primarily changing variables form being looked at as numerical to being viewed as factors, as they play important role in how are data is interpreted
 
@@ -96,7 +96,7 @@ pulliam_proj_w <- pulliam_proj_clean %>%
 pulliam_proj_w
 ```
 
-##Sumamry
+## Sumamry
 
 Here we are looking at the summary again to ensure no mistakes were made
 
@@ -153,13 +153,16 @@ pulliam_proj_mod <- lmer(mg_kg_tin ~ trt * day +
 pulliam_proj_mod
 ```
 
-#Anova Here we are running a type 3 ANOVA model to look at significance
+# Anova 
+
+Here we are running a type 3 ANOVA model to look at significance
 
 ```{r}
 Anova(pulliam_proj_mod, type=3)
 ```
 
-#Linear Model Assumptions \## Extracting residuals
+# Linear Model Assumptions 
+## Extracting residuals
 
 Here we are extracting residuals to begin chekcing normality
 
@@ -198,7 +201,7 @@ ggplot(randeff_rep, aes(sample=`(Intercept)`))+
   theme_bw()
 ```
 
-##Within Group Errors are iid
+## Within Group Errors are iid
 
 Here we plot residuals, studentized and fitted to look for outliers and normality issues (if we see a pattern)
 
@@ -214,7 +217,7 @@ ggplot(pulliam_proj_mix_resid, aes(x=.fitted, y=.studresid))+
   theme_bw()
 ```
 
-##QQplot
+## QQplot
 
 Here we check linear normality using the studentized residuals, keeping an eye out for unique patterns
 
@@ -231,7 +234,7 @@ ggplot(pulliam_proj_mix_resid, aes(sample=.studresid))+
   theme_bw()
 ```
 
-##Geom Density Plot
+## Geom Density Plot
 
 Here we look to ensure normality through the bell-shaped curve of the studentized resuals plotted
 
@@ -244,7 +247,7 @@ ggplot(pulliam_proj_mix_resid, aes(x=.studresid))+
   theme_bw()
 ```
 
-#Model Means
+# Model Means
 
 Here we looking at model means bewteen individual treatments within a certain day
 
@@ -267,7 +270,7 @@ pulliam_proj_cld_all <- cld(pulliam_proj_means_all,
 pulliam_proj_cld_all
 ```
 
-##Light Wrangling
+## Light Wrangling
 
 Here we are doing some light wrangling before moving on to our final plotting, but only needed if we decide to present the data in a way displaying "trt + day" together
 
@@ -280,7 +283,7 @@ pulliam_proj_cld_selected <- pulliam_proj_cld_all %>%
 pulliam_proj_cld_selected
 ```
 
-#Final Plot
+# Final Plot
 
 Here we bring in our initial wrangled data to create boxplots with error bars, we set our dependent variable of mg_kg_tin to the y axis and our independent variables of day and treatment to the y axis, displaying both through the use of the facet_grid function. Our letters our created trough our emmean values we created a few steps above, then we save it in a size that makes it legible.
 
