@@ -36,7 +36,7 @@ Using the collected data through rigorous sampling dates, the proposed project c
 
 Poultry litter application will increase cover crop biomass, weed suppression, soil nitrogen concentrations, and nutrient availability for successive organic vegetable systems.
 
-### Objectives
+### Objectives           
 
 a.  Determine the effect of poultry litter application to cover crops on biomass, weed suppression, soil nitrogen concentrations, and nutrient availability.
 b.  Determine the effect of poultry litter application on subsequent nitrogen availability released from cover crop.
@@ -48,11 +48,13 @@ The two-year field study will take place on organic certified land at the Univer
 
 To determine the effect of poultry litter on biomass of the cover crop, samples will be taken four times through the cover crop cycle using a 1 x 1 ft quadrat to harvest biomass at soil level, which will be dried at 65°C. Once dried, samples will be weighed, and their dry weight will be recorded. Additionally, light interception of the cover crops will be measured using the LP-80 (METER Group). Soil samples will be taken prior to poultry litter application, at 4,7, and 14 days after application then every two weeks until cover crop termination to determine soil inorganic nitrogen. The soil samples will be extracted in 1M KCl, then amounts of soil inorganic nitrogen will be calculated using a Timberline Instruments Ammonia Analyzer. Soil samples taken prior to poultry litter application will be analyzed for routine nutrient analysis, total nitrogen and carbon, and organic matter. At cover crop termination, biomass sample will be analyzed for total nitrogen, total carbon, carbohydrates, cellulose, and lignin using the NIRS DS5200 (Foss). Mineralization of these cover crops will be determined using the UGA Cover Crop Nitrogen Availability Calculator. Kale will be measured for nutrient uptake through soil samples taken at planting, and at 4,7, and 14 days after planting then every two weeks until final harvest. Leaf nitrate concentrations will be determined by harvesting two mature leaves and two new leaves per treatment block. Nitrate concentrations will be quantified using the same method used to determine soil nitrogen concentrations. To determine nitrogen availability for subsequent vegetable system, kale will be harvested four times throughout the study to and measured for nitrate, quality, dry weight, and overall yield.
 
-Data will be analyzed using a one way analysis of variance (ANOVA) model in the program R (R Core Team). The independent (treatment) variable in the proposed will be the rate of poultry litter application, while dependent variables will include soil nitrogen, biomass, plant nitrate, plant height, and chlorophyll. When ANOVA indicatedd significance, Tukey's HSD was used o superate means at p \< 0.05. The models were run using the lm function from the stats package in R.
+Data will be analyzed using a one way analysis of variance (ANOVA) model in the program R (R Core Team). The independent (treatment) variable in the proposed will be the rate of poultry litter application, while dependent variables will include soil nitrogen, biomass, plant nitrate, plant height, and chlorophyll. When ANOVA indicatedd significance, Tukey's HSD was used o superate means at p < 0.05. The models were run using the lm function from the stats package in R.
 
 # Study design
 
 This study design is a randomized complete block design. There are 4 poultry litter application treatments with 4 replications randomized in 4 blocks (16 plots total). Randomization was conducted by take the 16 plot IDs and putting them into a web-generated randomized plot.
+
+
 
 #Bringing in Data
 
