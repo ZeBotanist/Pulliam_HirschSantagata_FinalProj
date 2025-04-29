@@ -54,7 +54,11 @@ Data will be analyzed using a one way analysis of variance (ANOVA) model in the 
 
 This study design is a randomized complete block design. There are 4 poultry litter application treatments with 4 replications randomized in 4 blocks (16 plots total). Randomization was conducted by take the 16 plot IDs and putting them into a web-generated randomized plot.
 
+## Statistical analysis  
+Describe here your statistical analysis, including what type of ANOVA model you ran (based on the design above), what was your response variable, what were your explanatory variables and how were the explanatory variables treated (random or fixed). Provide your alpha level. Explain which function from which package you used to analyze this data. Explain how you checked linear model assumptions and whether or not they were met. Overall, make sure you explain in sufficient detail that, if given your data, a knowledgeable person would be able to reproduce your analysis exactly.  
 
+-include packages used 
+-include variabels : explantory ect..
 
 #Bringing in Data
 
@@ -295,3 +299,25 @@ ggsave("../output/pulliam_project_final_plot.png",
        width = 16,
        height = 5)
 ```
+
+
+
+
+
+# Results  
+Here is where the coding is going to happen, and it will be completely up to you. Include under this section as many sub-sections (using ##) and as many chunks needed to create the analytical workflow for your analysis, starting at loading packages and data, wrangling, EDA, modeling, assumptions checking, ANOVA table, means, pairwise comparisons, and final publication-quality plot.  
+
+Make sure to run a model that reflects your study design. Even if your study design does not include one of the designs covered in class, you are still expected to run the most appropriate model. If you need help for references, let me know.  
+
+Before each chunk, describe the steps being performed in that chunk. For example, "Here I will load the data".  
+
+If a chunk produces output, like printing a data frame, statistical summary, a plot, ANOVA table, etc., make sure to write text interpreting what you see and how you can/will use that information to move forward to the next steps in the workflow.  
+
+
+
+
+
+
+
+
+
