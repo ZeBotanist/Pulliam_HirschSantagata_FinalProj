@@ -253,7 +253,7 @@ pulliam_proj_cld_selected <- pulliam_proj_cld_all %>%
 pulliam_proj_cld_selected
 ```
 
-#Fianl Plot
+#Final Plot
 Here we bring in our intitial wrangled data to create boxplots with error bars, we set our dependednt variable of mg_kg_tin to the y axis and our independent variables of day and treatment to the y axis, displaying both through the use of the facet_grid fucntion. Our letters our created trough our emmean values we created a few steps above, then we save it in a size that makes it legible.
 ```{r fig.width=30, fig.height=8}
 pulliam_proj_w1 <- pulliam_proj_w %>%
